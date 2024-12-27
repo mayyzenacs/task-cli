@@ -2,15 +2,29 @@
     {
         "id": 1,
         "description": "go shopping",
-        "status": "To-Do",
+        "status": "done",
         "createdAt": "2024-12-25",
         "updatedAt": "2024-12-25"
     },
     {
         "id": 2,
         "description": "workout",
-        "status": "To-Do",
+        "status": "todo",
         "createdAt": "2024-12-25",
         "updatedAt": "2024-12-25"
+    },
+    {
+        "id": 3,
+        "description": "buy salt",
+        "status": "todo",
+        "createdAt": "2024-12-27",
+        "updatedAt": "2024-12-27"
+    },
+    {
+        "id": 4,
+        "description": "buy soda",
+        "status": "in-progress",
+        "createdAt": "2024-12-27",
+        "updatedAt": "2024-12-27"
     }
 ]

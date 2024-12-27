@@ -34,26 +34,27 @@ def write(tasks):
         json.dump(tasks, a, indent=4)        
 
 @app.command
-def add(tasks):
-    description = input("Enter a description to your task " )
+def add(description):
+    tasks = load_checker()
     task_id = len(tasks) + 1
     createdAt = date.today()
     updatedAt = date.today()
     task = {
         "id": task_id,
         "description": description,
-        "status": "To-Do",
+        "status": "todo",
         "createdAt": str(createdAt),
         "updatedAt": str(updatedAt)
     }
     tasks.append(task)
-    print(f"task ID{task_id} successfully created!")
+    write(tasks)
+    print(f"task ID {task_id} successfully created!")
 
 @app.command
-def update(tasks): 
-    id = int(input("Enter the task ID you want to change: ").strip( ))
-    description = input("Enter a description: ")
-    updateNew = date.today()
+def update(id, description): 
+    tasks = load_checker()
+    updateNew = str(date.today())
+    id = int(id)
     for task in tasks: 
         if task["id"] == id: 
             task["description"] = description
@@ -62,32 +63,43 @@ def update(tasks):
     write(tasks)
 
 @app.command
-def change_status(tasks): 
-    id = int(input("Task id that you want to change "))
-    status = input("new status: ").strip().lower()
-    if status == "done" or "in-progress": 
+def change(id, status): 
+    tasks = load_checker()
+    id = int(id)
+    if status.lower() in ["todo", "in-progress", "done"]: 
         for task in tasks: 
             if task["id"] == id: 
                 task["status"] = status
+                task["updatedAt"] = str(date.today())
                 write(tasks)
                 print(f"Task ID {id} status updated successfully")
-            else:
-                print("task not found")
                 return
     else:
         print("error, please enter a valid status")
-        return
+        
+    print("error, task id not found")
     
 @app.command
 def list_tasks(status=None): 
     tasks = load_checker()
     if status:
         tasks = [task for task in tasks if task["status"] == status]
+        print(json.dumps(tasks, indent=4))
     else: 
         for task in tasks:
             print(json.dumps(task, indent=4))
+        return
+    
+@app.command
+def delete(id):
+    tasks = load_checker()
+    id = int(id)
+    tasks_new = [task for task in tasks if task["id"] != id]
+    write(tasks_new)
+    print(f"Task ID {id} deleted")
 
-command = sys.argv[1]
-args = sys.argv[2:]
+if __name__  == '__main__':
+    command = sys.argv[1]
+    args = sys.argv[2:]
 
-app.run(command, args)
+    app.run(command, *args)
