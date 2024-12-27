@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 from datetime import date
 
 class App:
@@ -86,43 +87,7 @@ def list_tasks(status=None):
         for task in tasks:
             print(json.dumps(task, indent=4))
 
+command = sys.argv[1]
+args = sys.argv[2:]
 
-def main():
-    list = load_checker()
-    while True:
-        print("CLI Task Tracker")
-        print( """
-            1 - Add new task
-            2 - Update task
-            3 - Delete task
-            4 - Change task status
-            5 - View tasks
-            6 - Exit
-            """)
-
-
-        option = int(input("Choose an menu option "))
-        if option == 1:
-            add(list)
-            write(list)
-        elif option == 2:
-            update(list)
-        elif option == 3:
-            pass
-        elif option == 4:
-            change_status(list)
-        elif option == 5:
-            choose = input("Choose task status to filter [todo, in-progress, done] or leave empty to show all ").strip().lower()
-            if choose not in ["todo", "in-progress", "done", ""]: 
-                print("invalid, choose a valid task status ")
-                continue
-            list_tasks(choose if choose else None)
-        elif option == 6: 
-            print("Goodbye!")
-            break
-        else: 
-            print("Invalid number")
-            continue
-
-if __name__ == "__main__":
-    main()
+app.run(command, args)
