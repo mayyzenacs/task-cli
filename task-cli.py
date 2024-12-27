@@ -33,7 +33,7 @@ def write(tasks):
         json.dump(tasks, a, indent=4)        
 
 @app.command
-def new_task(tasks):
+def add(tasks):
     description = input("Enter a description to your task " )
     task_id = len(tasks) + 1
     createdAt = date.today()
@@ -49,7 +49,7 @@ def new_task(tasks):
     print(f"task ID{task_id} successfully created!")
 
 @app.command
-def update_task(tasks): 
+def update(tasks): 
     id = int(input("Enter the task ID you want to change: ").strip( ))
     description = input("Enter a description: ")
     updateNew = date.today()
@@ -103,10 +103,10 @@ def main():
 
         option = int(input("Choose an menu option "))
         if option == 1:
-            new_task(list)
+            add(list)
             write(list)
         elif option == 2:
-            update_task(list)
+            update(list)
         elif option == 3:
             pass
         elif option == 4:
@@ -123,8 +123,6 @@ def main():
         else: 
             print("Invalid number")
             continue
-
-main()
 
 if __name__ == "__main__":
     main()
